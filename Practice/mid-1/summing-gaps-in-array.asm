@@ -11,6 +11,7 @@ INCLUDE Irvine32.inc
         L1:
             movzx ebx, array[esi + 1]
             movzx edx, array[esi]
+            sub ebx, edx
             add eax, ebx
             inc esi
         LOOP L1
