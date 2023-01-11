@@ -1,0 +1,44 @@
+INCLUDE Irvine32.inc
+
+.data
+	i DWORD 0
+	j DWORD 0
+
+.code
+	main PROC
+		call ReadDec
+		mov ecx, eax
+		mov dl, "A"
+		mov i, 0
+		outer:
+			cmp i, ecx
+			jge outerEnd
+			mov j, 0
+			inner:
+				cmp j, ecx
+				jge innerEnd
+				mov ebx, ecx
+				dec ebx
+				sub ebx, i
+				cmp j, ebx
+				jl _else
+				mov al, dl
+				call WriteChar
+				inc dl
+				jmp cont
+				_else:
+				mov al, " "
+				call WriteChar
+				cont:
+				inc j
+				jmp inner
+			innerEnd:
+			call Crlf
+			inc i
+			jmp outer
+		outerEnd:
+		exit
+	main ENDP
+	END main
+
+		

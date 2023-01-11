@@ -1,0 +1,31 @@
+INCLUDE Irvine32.inc
+
+.data
+	msg BYTE "Enter a number: ", 0
+
+.code
+	main PROC
+		mov ecx, 3
+		L1:
+			mov edx, OFFSET msg
+			call WriteString
+			call ReadDec
+			PUSH eax
+		LOOP L1
+		call ThreeProd
+		call WriteDec
+		call Crlf
+		exit
+	main ENDP
+	
+	ThreeProd PROC
+		PUSH ebp
+		mov ebp, esp
+		mov eax, [ebp + 8]
+		imul DWORD PTR [ebp + 12]
+		imul DWORD PTR [ebp + 16]
+		mov esp, ebp
+		POP ebp
+		ret 12
+	ThreeProd ENDP
+	END main

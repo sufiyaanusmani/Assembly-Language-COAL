@@ -1,0 +1,52 @@
+INCLUDE Irvine32.inc
+
+.data
+	msg1 BYTE "Enter number of columns: ", 0
+	i DWORD ?
+	j DWORD ?
+.code
+	main PROC
+		mov edx, OFFSET msg1
+		call WriteString
+		call ReadDec
+		PUSH eax
+		call PrintPattern
+		exit
+	main ENDP
+
+	PrintPattern PROC
+		PUSH ebp
+		mov ebp, esp
+		mov ecx, [ebp + 8]
+		mov i, 0
+		outer:
+			cmp i, ecx
+			jge outerEnd
+			mov j, 0
+			inner:
+				cmp j, ecx
+				jge innerEnd
+				mov ebx, ecx
+				dec ebx
+				sub ebx, i
+				cmp j, ebx
+				jl _else
+				mov al, "*"
+				call WriteChar
+				jmp _endIf
+				_else:
+				mov al, " "
+				call WriteChar
+				_endIf:
+				inc j
+				jmp inner
+			innerEnd:
+			call Crlf
+			inc i
+			jmp outer
+		outerEnd:
+		mov esp, ebp
+		POP ebp
+		ret 4
+	PrintPattern ENDP
+	END main

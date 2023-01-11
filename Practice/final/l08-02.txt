@@ -1,0 +1,39 @@
+INCLUDE Irvine32.inc
+
+.data
+	msg1 BYTE "Enter first number: ", 0
+	msg2 BYTE "Enter second number: ", 0
+	msg3 BYTE "Enter third number: ", 0
+
+.code
+	main PROC
+		mov eax, 0
+		mov edx, OFFSET msg1
+		call WriteString
+		call ReadDec
+		PUSH eax
+		mov edx, OFFSET msg2
+		call WriteString
+		call ReadDec
+		PUSH eax
+		mov edx, OFFSET msg3
+		call WriteString
+		call ReadDec
+		PUSH eax
+		call AddNumbers
+		call WriteDec
+		call Crlf
+		exit
+	main ENDP
+
+	AddNumbers PROC
+		PUSH ebp
+		mov ebp, esp
+		mov eax, [ebp + 8]
+		add eax, [ebp + 12]
+		add eax, [ebp + 16]
+		mov esp, ebp
+		POP ebp
+		ret 12
+	AddNumbers ENDP
+	END main

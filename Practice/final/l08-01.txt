@@ -1,0 +1,39 @@
+INCLUDE Irvine32.inc
+
+.data
+	source BYTE 1, 2, 3, 4, 5, 6, 7, 8
+	destination BYTE LENGTHOF source DUP(?)
+
+.code
+	main PROC
+		mov ecx, LENGTHOF source
+		mov esi, OFFSET source
+		mov eax, 0
+		L1:
+			mov al, BYTE PTR [esi]
+			PUSH eax
+			add esi, TYPE source
+		LOOP L1
+
+		mov ecx, LENGTHOF destination
+		mov edi, OFFSET destination
+		add edi, LENGTHOF destination * TYPE destination
+		sub edi, TYPE destination
+		L2:
+			POP eax
+			mov BYTE PTR [edi], al
+			sub edi, TYPE destination
+		LOOP L2
+
+		mov ecx, LENGTHOF destination
+		mov esi, OFFSET destination
+		L3:
+			mov al, BYTE PTR [esi]
+			call WriteDec
+			call Crlf
+			add esi, TYPE destination
+		LOOP L3
+
+		exit
+	main ENDP
+	END main

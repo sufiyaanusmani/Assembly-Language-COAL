@@ -1,0 +1,24 @@
+INCLUDE Irvine32.inc
+
+.data
+	str1 BYTE "Sufiyaan", 0
+	str2 BYTE LENGTHOF str1 DUP(?)
+
+.code
+	main PROC
+		mov esi, OFFSET str1 + LENGTHOF str1
+		sub esi, 2
+		mov edi, OFFSET str2
+		std
+		mov ecx, LENGTHOF str1
+		dec ecx
+		L1:
+			movsb
+			add edi, 2
+		LOOP L1
+		mov BYTE PTR [edi], 0
+		mov edx, OFFSET str2
+		call WriteString
+		exit
+	main ENDP
+	END main
